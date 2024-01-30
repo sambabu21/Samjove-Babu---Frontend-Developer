@@ -1,5 +1,5 @@
 
-export default function SearchForm( { filters,handleChange,clearFilters}){
+export default function RocketsSearchForm( { filters,handleChange,clearFilters}){
 
     return (
         <div className="search-engine">

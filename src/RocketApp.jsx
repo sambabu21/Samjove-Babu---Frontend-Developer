@@ -1,13 +1,14 @@
 // import { useState,useEffect } from 'react'
-import Banner from './Components/Banner'
-import TileSection from './Components/TileSection'
-import SearchForm from './Components/SearchForm'
-import { useRockets } from './customHooks'
+
+import TileSection from './Components/RocketComponents/TileSection'
+import RocketsSearchForm from './Components/RocketComponents/RocketsSearchForm'
+import { useData } from './customHooks'
+import RocketBanner from './Components/RocketComponents/BannerRockets'
 
 
 export default function RocketApp() {
   
-  const { rockets,filteredResults,filters,setFilters } = useRockets()
+  const { data,filteredResults,filters,setFilters } = useData('https://api.spacexdata.com/v3/rockets')
   
     function handleChange(e){
         const { name,value } = e.target
@@ -29,8 +30,8 @@ export default function RocketApp() {
 
   return (
     <div className='site-container'>
-      <Banner />
-      <SearchForm 
+      <RocketBanner />
+      <RocketsSearchForm 
           filters={filters} 
           handleChange={handleChange}
           clearFilters={clearFilters}

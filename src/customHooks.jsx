@@ -1,41 +1,53 @@
 import { useState,useEffect } from "react"
 
 //custom hook to handle api calls and filtering of data
-export function useRockets(){
-    const [rockets,setRockets] = useState([])
-    const [filters,setFilters] = useState({
-        rocket_name:'',
-        active:null,
-        country:null
-    })
+export function useData(url){
+    const [data,setData] = useState([])
+    const [filters,setFilters] = useState({})
+
+    // useEffect(()=>{
+    //     if(url==='https://api.spacexdata.com/v3/rockets'){
+    //     setFilters({
+    //         rocket_name:'',
+    //         active:null,
+    //         country:null, 
+    //     })
+    // }else{
+    //     setFilters({
+    //         status:null,
+    //         type:null
+    //     })
+    // }
+
+    // },[])
 
     useEffect(()=>{
-        fetch('https://api.spacexdata.com/v3/rockets')
+        fetch(url)
         .then(res=>res.json())
-        .then(data=> setRockets(data))
+        .then(data=> setData(data))
 
     },[])
 
     
-    let filteredResults= rockets.filter(rocket=>{
+    let filteredResults= data.filter(data=>{
         
         return Object.keys(filters).filter(key=>{
              
             return filters[key]!=null
         }).every(key=>{
             if(key==="rocket_name"){
-                return rocket[key].toLowerCase().includes(filters[key])
+                return data[key].toLowerCase().includes(filters[key])
             }else if(key==="active"){
-                return rocket[key].toString()===filters[key] 
+                return data[key].toString()===filters[key] 
             }else{
-                return rocket[key]===filters[key]
+                return data[key]===filters[key]
             }
         })
     })
 
     if(Object.values(filters).every(val=>!val)){
-        filteredResults=rockets
+        filteredResults=data
     }
 
-    return {rockets,filteredResults,filters,setFilters}
+    return {data,filteredResults,filters,setFilters}
 }
